@@ -1,0 +1,158 @@
+/* bg.css */
+
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #000; /* Fallback background color */
+  color: #0ff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Background Animation Pseudo-element */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #000;
+  background-image:
+    radial-gradient(circle at 15% 25%, #0ff2 0%, transparent 20%),
+    radial-gradient(circle at 85% 75%, #f0f2 0%, transparent 20%),
+    radial-gradient(circle at 40% 90%, #0f02 0%, transparent 20%),
+    radial-gradient(circle at 60% 10%, #0f02 0%, transparent 20%);
+  background-size: 400px 400px, 400px 400px, 400px 400px, 400px 400px;
+  background-repeat: no-repeat;
+  animation: moveBackground 20s linear infinite alternate;
+}
+
+/* Keyframes for background movement */
+@keyframes moveBackground {
+  from {
+    background-position: 0% 0%, 100% 100%, 50% 50%, 10% 90%;
+  }
+  to {
+    background-position: 100% 0%, 0% 100%, 10% 10%, 90% 90%;
+  }
+}
+
+/* Heading Styles */
+h1 {
+  font-size: 4rem;
+  margin-bottom: 40px;
+  text-align: center;
+  /* Add perspective for 3D transforms on children (spans) */
+  perspective: 600px;
+}
+
+/* Style individual letters (spans) inside H1 */
+h1 span {
+  display: inline-block; /* Needed for transforms */
+  opacity: 0; /* Start hidden */
+  transform-origin: bottom center; /* Rotate around the bottom */
+  /* Base neon glow for letters */
+  text-shadow:
+    0 0 5px #0ff,
+    0 0 15px #0ff,
+    0 0 30px #0ff,
+    0 0 50px #0ff;
+  /* Apply falling animation FIRST, then pulsing animation */
+  /* 'fallIn' animation runs once, 'neonPulse' loops infinitely after fallIn completes */
+  animation: fallIn 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards, /* Falling animation */
+             neonPulse 1.5s ease-in-out infinite alternate; /* Pulsing animation */
+}
+
+/* Stagger the animation delay for each letter */
+h1 span:nth-child(1) { animation-delay: 0.2s, 1.4s; } /* fallIn delay, neonPulse delay */
+h1 span:nth-child(2) { animation-delay: 0.4s, 1.6s; } /* fallIn delay, neonPulse delay */
+h1 span:nth-child(3) { animation-delay: 0.6s, 1.8s; } /* fallIn delay, neonPulse delay */
+h1 span:nth-child(4) { animation-delay: 0.8s, 2.0s; } /* fallIn delay, neonPulse delay */
+h1 span:nth-child(5) { animation-delay: 1.0s, 2.2s; } /* fallIn delay, neonPulse delay */
+h1 span:nth-child(6) { animation-delay: 1.2s, 2.4s; } /* fallIn delay, neonPulse delay */
+h1 span:nth-child(7) { animation-delay: 1.4s, 2.6s; } /* fallIn delay, neonPulse delay */
+
+/* Keyframes for falling letter animation */
+@keyframes fallIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-150px) rotateX(-90deg) scale(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg) scale(1);
+  }
+}
+
+/* Keyframes for neon text pulsing (keep this) */
+@keyframes neonPulse {
+  from {
+    text-shadow: 0 0 5px #0ff, 0 0 15px #0ff, 0 0 30px #0ff, 0 0 50px #0ff;
+  }
+  to {
+    text-shadow: 0 0 10px #0ff, 0 0 25px #0ff, 0 0 50px #0ff, 0 0 80px #0ff, 0 0 90px #0ff; /* Increased glow size and blur */
+  }
+}
+
+/* Add your text content here */
+h1::after {
+  content: "Sujan";
+  display: block;
+  color: #0ff;
+  font-size: 6rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+h1 span {
+  animation-delay: calc(var(--i) * 0.2s), calc(var(--i) * 0.4s);
+}
+
+/* Image Frame Styles (Keep these) */
+.image-frame {
+  width: 320px;
+  height: 320px;
+  border: 5px solid #0ff;
+  box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+  overflow: hidden;
+  border-radius: 15px;
+  animation: glowFrame 1.5s 2.3s ease forwards;
+  opacity: 0;
+  background: #111;
+  max-width: 90%;
+}
+
+@keyframes glowFrame {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
